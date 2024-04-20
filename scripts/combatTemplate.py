@@ -41,15 +41,15 @@ def combat(player1, player2):
         # Check if defender is still alive
         if not defender.is_alive():
             print(f"{defender.name} has been defeated!")
-            return attacker  # Return the winner
+            return attacker, defender  # Return the winner and loser
 
         # Swap attacker and defender for next round
         attacker, defender = defender, attacker
 
-def record_combat_history(winner_name):
+def record_combat_history(winner_name, winner_item, winner_health, opponent_name):
     with open("G:/PythonCombatSim/data/combatHistory.csv", mode='a', newline='') as file:
         writer = csv.writer(file)
-        writer.writerow([winner_name])
+        writer.writerow([winner_name, winner_item, winner_health, opponent_name])
 
 if __name__ == "__main__":
     # Create characters
@@ -78,8 +78,8 @@ if __name__ == "__main__":
     print(f"{player2.name} equipped {player2_item.name} (Attack +{player2_item.attack_bonus}, Defense +{player2_item.defense_bonus}, Speed +{player2_item.speed_bonus})")
 
     # Start combat
-    winner = combat(player1, player2)
-    print(f"{winner.name} wins the combat!")
+    winner, loser = combat(player1, player2)
+    print(f"{winner.name} wins the combat against {loser.name}!")
     
-    # Record the winner to the combat history CSV file
-    record_combat_history(winner.name)
+    # Record the combat details to the combat history CSV file
+    record_combat_history(winner.name, player1_item.name if winner == player1 else player2_item.name, winner.health, loser.name)
