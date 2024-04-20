@@ -8,6 +8,6 @@ class Item:
 items = {
     "Sword": Item("Sword", attack_bonus=5),
     "Shield": Item("Shield", defense_bonus=5),
-    "Leather Boots" : Item("Boots", speed_bonus=5)
+    "Boots" : Item("Leather Boots", speed_bonus=5)
     # Add more items here
 }

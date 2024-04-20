@@ -1,6 +1,7 @@
 import random
 import time
 from items import items
+from nameGen import generate_random_name_from_csv  # Import the name generation function
 
 class Character:
     def __init__(self, name, health, attack, defense, speed):
@@ -35,7 +36,6 @@ def combat(player1, player2):
         damage = random.randint(1, 5)
         defender.take_damage(damage)
         print(f"{attacker.name} attacks {defender.name} for {damage} damage.")
-        time.sleep(0.5)
 
         # Check if defender is still alive
         if not defender.is_alive():
@@ -45,19 +45,19 @@ def combat(player1, player2):
         # Swap attacker and defender for next round
         attacker, defender = defender, attacker
 
-
 if __name__ == "__main__":
     # Create characters
-    player1 = Character("Player 1", 100, 10, 5, 5)  # Add speed attribute
-    player2 = Character("Player 2", 100, 10, 5, 5)  # Add speed attribute
+    player1_name = generate_random_name_from_csv("G:/PythonCombatSim/data/names.csv")
+    player2_name = generate_random_name_from_csv("G:/PythonCombatSim/data/names.csv")
+    player1 = Character(player1_name, 100, 10, 5, 5)  # Add speed attribute
+    player2 = Character(player2_name, 100, 10, 5, 5)  # Add speed attribute
 
     # Randomly select and equip items
     item_names = list(items.keys())
-    item_name_player1 = random.choice(item_names)
-    item_name_player2 = random.choice(item_names)
+    random.shuffle(item_names)  # Shuffle the item names list
     
-    player1_item = items[item_name_player1]
-    player2_item = items[item_name_player2]
+    player1_item = items[item_names[0]]
+    player2_item = items[item_names[1]]
     
     player1.attack += player1_item.attack_bonus
     player1.defense += player1_item.defense_bonus
