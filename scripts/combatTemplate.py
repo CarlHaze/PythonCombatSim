@@ -46,10 +46,10 @@ def combat(player1, player2):
         # Swap attacker and defender for next round
         attacker, defender = defender, attacker
 
-def record_combat_history(winner_name, winner_item, winner_health, opponent_name):
+def record_combat_history(winner_name, winner_item, winner_health, opponent_name, opponent_item):
     with open("G:/PythonCombatSim/data/combatHistory.csv", mode='a', newline='') as file:
         writer = csv.writer(file)
-        writer.writerow([winner_name, winner_item, winner_health, opponent_name])
+        writer.writerow([winner_name, winner_item, winner_health, opponent_name, opponent_item])
 
 def run_combat_multiple_times():
     try:
@@ -61,8 +61,8 @@ def run_combat_multiple_times():
     for _ in range(num_times):
         player1_name = generate_random_name_from_csv("G:/PythonCombatSim/data/names.csv")
         player2_name = generate_random_name_from_csv("G:/PythonCombatSim/data/names.csv")
-        player1 = Character(player1_name, 100, 10, 5, 5)  # Add speed attribute
-        player2 = Character(player2_name, 100, 10, 5, 5)  # Add speed attribute
+        player1 = Character(player1_name, 100, 10, 5, 5)  
+        player2 = Character(player2_name, 100, 10, 5, 5)
 
         # Randomly select and equip items
         item_names = list(items.keys())
@@ -87,8 +87,10 @@ def run_combat_multiple_times():
         winner, loser = combat(player1, player2)
         print(f"{winner.name} wins the combat against {loser.name}!")
 
-        # Record the combat details to the combat history CSV file
-        record_combat_history(winner.name, player1_item.name if winner == player1 else player2_item.name, winner.health, loser.name)
+       # Record the combat details to the combat history CSV file
+        record_combat_history(winner.name, player1_item.name if winner == player1 else player2_item.name, winner.health,
+                       loser.name, player1_item.name if loser == player1 else player2_item.name)
+
 
 if __name__ == "__main__":
     run_combat_multiple_times()
