@@ -1,7 +1,7 @@
 import random
 import time
 from items import items
-from nameGen import generate_random_name_from_csv  # Import the name generation function
+from nameGen import generate_random_name_from_csv
 
 class Character:
     def __init__(self, name, health, attack, defense, speed):
@@ -49,8 +49,8 @@ if __name__ == "__main__":
     # Create characters
     player1_name = generate_random_name_from_csv("G:/PythonCombatSim/data/names.csv")
     player2_name = generate_random_name_from_csv("G:/PythonCombatSim/data/names.csv")
-    player1 = Character(player1_name, 100, 10, 5, 5)  # Add speed attribute
-    player2 = Character(player2_name, 100, 10, 5, 5)  # Add speed attribute
+    player1 = Character(player1_name, 100, 10, 5, 5) 
+    player2 = Character(player2_name, 100, 10, 5, 5) 
 
     # Randomly select and equip items
     item_names = list(items.keys())
