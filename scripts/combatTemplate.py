@@ -1,5 +1,6 @@
 import random
 import time
+import csv
 from items import items
 from nameGen import generate_random_name_from_csv
 
@@ -40,17 +41,22 @@ def combat(player1, player2):
         # Check if defender is still alive
         if not defender.is_alive():
             print(f"{defender.name} has been defeated!")
-            break
+            return attacker  # Return the winner
 
         # Swap attacker and defender for next round
         attacker, defender = defender, attacker
+
+def record_combat_history(winner_name):
+    with open("G:/PythonCombatSim/data/combatHistory.csv", mode='a', newline='') as file:
+        writer = csv.writer(file)
+        writer.writerow([winner_name])
 
 if __name__ == "__main__":
     # Create characters
     player1_name = generate_random_name_from_csv("G:/PythonCombatSim/data/names.csv")
     player2_name = generate_random_name_from_csv("G:/PythonCombatSim/data/names.csv")
-    player1 = Character(player1_name, 100, 10, 5, 5) 
-    player2 = Character(player2_name, 100, 10, 5, 5) 
+    player1 = Character(player1_name, 100, 10, 5, 5)  # Add speed attribute
+    player2 = Character(player2_name, 100, 10, 5, 5)  # Add speed attribute
 
     # Randomly select and equip items
     item_names = list(items.keys())
@@ -72,4 +78,8 @@ if __name__ == "__main__":
     print(f"{player2.name} equipped {player2_item.name} (Attack +{player2_item.attack_bonus}, Defense +{player2_item.defense_bonus}, Speed +{player2_item.speed_bonus})")
 
     # Start combat
-    combat(player1, player2)
+    winner = combat(player1, player2)
+    print(f"{winner.name} wins the combat!")
+    
+    # Record the winner to the combat history CSV file
+    record_combat_history(winner.name)
